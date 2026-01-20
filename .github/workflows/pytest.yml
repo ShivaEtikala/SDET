@@ -42,7 +42,7 @@ jobs:
       - name: Run Pytest
         run: |
           mkdir -p reports
-         pytest -v --capture=no --html=reports/pytest-report.html --self-contained-html
+          pytest -v --capture=no --html=reports/pytest-report.html --self-contained-html
       # Upload HTML report as artifact(viewable in GitHub Actions)
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
