@@ -22,11 +22,22 @@ jobs:
         run: |
          python -m pip install --upgrade pip
          pip install -r requirements.txt
+      # Start the API Docker container
       - name: Run API container
         run: |
-          docker run -d -p 8090:8080 api-server callumhunter/sas_sdet_interview:latest
+          docker run -d -p 8090:8080 --name api-server callumhunter/sas_sdet_interview:latest
           sleep 5
-
+      # Wait until the API is ready
+      - name: Wait for API
+        run: |
+          for i in {1..20}; do
+            if curl -s http://localhost:8090/playerName; then
+              echo "API is up!"
+              break
+            fi
+            echo "Waiting for API..."
+            sleep 2
+          done
       # Run tests with pytest and generate HTML report
       - name: Run Pytest
         run:
@@ -37,6 +48,11 @@ jobs:
         with:
           name: pytest-report
           path: reports/pytest-report.html
+      # Stop and remove the APi container
+      - name: Cleanup Docker container
+        run: |
+          docker stop api-server
+          docker rm api-server
 
 
 
