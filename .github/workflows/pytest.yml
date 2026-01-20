@@ -42,7 +42,7 @@ jobs:
       - name: Run Pytest
         run: |
           mkdir -p reports
-          pytest -v --capture=no --html=reports/pytest-report.html --self-contained-html --log-file=reports/all-test.log
+          pytest -v --capture=no --html=reports/pytest-report.html --self-contained-html --log-file=reports/all-tests.log
       # Upload HTML report as artifact(viewable in GitHub Actions)
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
@@ -50,11 +50,17 @@ jobs:
           name: pytest-report
           path: reports/pytest-report.html
       # Upload Test Logs
-      - name: Upload HTML report
+      - name: Upload Individual test logs
         uses: actions/upload-artifact@v4
         with:
           name: test-logs
           path: reports/logs/*.log
+      # Upload All Test Logs
+      - name: Upload All tests log
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-tests.log
+          path: reports/all-tests.log
       # Stop and remove the APi container
       - name: Cleanup Docker container
         run: |
