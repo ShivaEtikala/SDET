@@ -22,6 +22,11 @@ jobs:
         run: |
          python -m pip install --upgrade pip
          pip install -r requirements.txt
+      - name: Run API container
+        run: |
+          docker run -d -p 8090:8080 api-server callumhunter/sas_sdet_interview:latest
+          sleep 5
+
       # Run tests with pytest and generate HTML report
       - name: Run Pytest
         run:
