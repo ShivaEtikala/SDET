@@ -1,0 +1,7 @@
+# Test framework for writing and executing automated tests
+pytest
+# HTTP client library for making REST API calls
+requests
+#YAML parser for loading environment configuration files
+pyyaml
+pytest_html
