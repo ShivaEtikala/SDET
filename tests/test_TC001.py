@@ -1,12 +1,17 @@
 import logging
+
+import pytest
+
 import core.assertions as assertions
-from services.get_playerName_service import get_player_name
+from services.playerName_service import get_player_name
 from utils.logger import get_logger
 
 # Module-Level Logger for this test file
 #logger = get_logger(__name__)
 
 
+@pytest.mark.sanity
+@pytest.mark.regression
 def test_tc001_get_playername(api_client, per_test_logger):
     # Below print statements are for debugging logging
     # print("Logger handlers:",logger.handlers)
