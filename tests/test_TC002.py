@@ -4,6 +4,7 @@ import pytest
 from core.client import ApiClient
 
 
+@pytest.mark.smoke
 @pytest.mark.sanity
 @pytest.mark.regression
 def test_TC002_put_playerName(api_client, per_test_logger):

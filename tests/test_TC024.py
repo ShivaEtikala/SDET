@@ -4,6 +4,7 @@ import pytest
 from core.client import ApiClient
 
 
+@pytest.mark.smoke
 @pytest.mark.sanity
 @pytest.mark.regression
 def test_TC024_dice(api_client, per_test_logger):
@@ -24,6 +25,3 @@ def test_TC024_dice(api_client, per_test_logger):
     # Assertions
     assertions.assert_status_code(response, 200)
     assertions.assert_rolldice_data(response)
-
-
-

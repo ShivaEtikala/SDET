@@ -10,6 +10,7 @@ from utils.logger import get_logger
 #logger = get_logger(__name__)
 
 
+@pytest.mark.smoke
 @pytest.mark.sanity
 @pytest.mark.regression
 def test_tc001_get_playername(api_client, per_test_logger):
