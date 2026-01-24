@@ -4,6 +4,7 @@ import yaml
 import pytest
 import pytest_html
 from pathlib import Path
+import re
 
 # ------------
 # Project Root Setup
@@ -46,9 +47,10 @@ def per_test_logger(request):
     Creates a separate log file per test function
     """
     test_name = request.node.name
+    safe_test_name = re.sub(r'[\\/:*?"<>|}]',"_",test_name)
     logs_dir = REPORTS_DIR / "logs"
     logs_dir.mkdir(exist_ok=True)
-    logfile = PROJECT_ROOT / "reports" / "logs" / f"{test_name}.log"
+    logfile = PROJECT_ROOT / "reports" / "logs" / f"{safe_test_name}.log"
 
     logger = logging.getLogger(test_name)
     logger.setLevel(logging.DEBUG)

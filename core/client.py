@@ -60,12 +60,12 @@ class ApiClient:
         self.logger.info("Received response")
         return response
 
-    def delete(self, endpoint, headers=None):
+    def delete(self, endpoint, headers=None, auth=None):
         url = f"{self.base_url}{endpoint}"
 
         # Log request details
         self.logger.info("Sending delete request")
-        response = requests.put(url, headers=headers)
+        response = requests.delete(url, headers=headers, auth=auth)
         # Log response summary
         self.logger.info("Received response")
         return response

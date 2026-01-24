@@ -9,7 +9,7 @@ from core.client import ApiClient
 @pytest.mark.parametrize("die_id",[0,6,'a'])
 def test_TC020_22_rolldie(api_client, per_test_logger,die_id):
     """
-    Test Case: API_TC_20-22  Verify Roll dice with invalid id
+    Test Case: API_TC_20-22h0  Verify Roll dice with invalid id
     """
 
     logger = per_test_logger

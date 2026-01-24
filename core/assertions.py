@@ -86,3 +86,34 @@ def assert_rolldie_invaliddata(response):
     assert response_json["data"] == "Die ID must be an integer between 1 and 5"
 
 
+def assert_die_intvaluetype(response):
+    response_json = response.json()
+    assert isinstance(response_json["data"]["value"], int)
+
+
+def assert_die_floatvaluetype(response):
+    response_json = response.json()
+    value = response_json["data"]["value"]
+    assert isinstance(value, str)
+    assert float(value) >= 1
+
+
+def assert_die_wordvaluetype(response):
+    response_json = response.json()
+    valid_values = ["one", "two", "three", "four", "five", "six"]
+    value = response_json["data"]["value"]
+    assert isinstance(value, str)
+    assert value in valid_values
+
+
+def assert_die_dotvaluetype(response):
+    response_json = response.json()
+    valid_values = [".", "..", "...", "....", ".....", "......"]
+    value = response_json["data"]["value"]
+    assert isinstance(value, str)
+    assert value in valid_values
+
+
+def assert_die_invalidheader(response):
+    response_json = response.json()
+    assert response_json["data"] == "Invalid value in 'Accept' header"
