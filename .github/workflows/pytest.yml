@@ -40,6 +40,9 @@ jobs:
           done
       # Run tests with pytest and generate HTML report
       - name: Run Pytest
+        env:
+          APP_USERNAME: ${{ secrets.APP_USERNAME }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
         run: |
           mkdir -p reports
           pytest -v --capture=no --html=reports/pytest-report.html --self-contained-html --log-file=reports/all-tests.log -m regression

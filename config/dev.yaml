@@ -8,8 +8,8 @@ auth_type: basic
 
 # Credentials for Basic Authentication
 # Used only when auth_type is set to "basic"
-username: admin
-password: snakeeyes
+username: ${APP_USERNAME}
+password: ${APP_PASSWORD}
 
 # Player name used in player name update testcases
 playername: sas_sdet_test

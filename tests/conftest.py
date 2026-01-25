@@ -1,11 +1,12 @@
+import os
 import sys
 import logging
 import yaml
 import pytest
-import pytest_html
 from pathlib import Path
 import re
 from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
 
 # ------------
 # Project Root Setup
@@ -25,9 +26,23 @@ from core.client import ApiClient
 
 @pytest.fixture(scope="session")
 def config():
+    # Loads .env into environment variables
+    load_dotenv()
+
+    # Load YAML config
     config_path = PROJECT_ROOT / "config" / "dev.yaml"
     with open(config_path, 'r') as f:
-        return yaml.safe_load(f)
+        cfg = yaml.safe_load(f)
+
+    # Inject secrets from environment
+    cfg["username"] = os.getenv("APP_USERNAME")
+    cfg["password"] = os.getenv("APP_PASSWORD")
+
+    # Fail fast if missing
+    if not cfg["username"] or not cfg["password"]:
+        raise RuntimeError("Missing APP_USERNAME or APP_PASSWORD")
+
+    return cfg
 
 
 @pytest.fixture(scope="session")
