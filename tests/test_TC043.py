@@ -21,5 +21,5 @@ def test_TC043_setdievalue_noauth(api_client, per_test_logger):
     logger.info("Response is %s", response.json())
 
     assertions.assert_status_code(response,401)
-    assertions.assert_status_fail(response)
+    assertions.assert_api_status(response,"failed")
     assertions.assert_response_data(response,"Basic auth missing or could not be parsed")

@@ -22,7 +22,7 @@ def test_TC031_getdieid5(api_client, per_test_logger):
     logger.info("Value of die id is %s", response.json()["data"]["value"])
     # Assertions
     assertions.assert_status_code(response,200)
-    assertions.assert_status_success(response)
-    assertions.assert_die_wordvaluetype(response)
+    assertions.assert_api_status(response,"success")
+    assertions.assert_die_value_is_word(response)
 
 

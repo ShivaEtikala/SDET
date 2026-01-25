@@ -39,6 +39,6 @@ def test_tc001_get_playername(api_client, per_test_logger):
 
     # Assertions
     assertions.assert_status_code(response, 200)
-    assertions.assert_not_empty(response)
-    assertions.assert_status_success(response)
+    assertions.assert_response_not_empty(response)
+    assertions.assert_api_status(response,"success")
     assertions.assert_response_time(response, 1000)

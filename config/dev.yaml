@@ -1,5 +1,15 @@
+# Base URL for the API under test
+# Used by the API client to construct all endpoints
 base_url: http://localhost:8090
+
+# Authentication type to be used by the test framework
+# Supported values: bearer, api_key, basic
 auth_type: basic
+
+# Credentials for Basic Authentication
+# Used only when auth_type is set to "basic"
 username: admin
 password: snakeeyes
+
+# Player name used in player name update testcases
 playername: sas_sdet_test

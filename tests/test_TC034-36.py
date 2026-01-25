@@ -23,6 +23,6 @@ def test_TC034_36_die_invalidid(api_client, per_test_logger,die_id):
 
     # Assertions
     assertions.assert_status_code(response, 400)
-    assertions.assert_rolldie_invaliddata(response)
+    assertions.assert_invalid_die_id_response(response)
 
 

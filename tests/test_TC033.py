@@ -21,6 +21,6 @@ def test_TC033_getdieid5_invalidheader(api_client, per_test_logger):
     logger.info("data for die ID 5 is %s", response.json())
     # Assertions
     assertions.assert_status_code(response,400)
-    assertions.assert_status_fail(response)
-    assertions.assert_die_invalidheader(response)
+    assertions.assert_api_status(response,"failed")
+    assertions.assert_invalid_accept_header(response)
 

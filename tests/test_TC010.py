@@ -36,5 +36,5 @@ def test_TC010_getyahtzee(api_client, per_test_logger, get_auth_headers):
     logger.info("Dice values are %s", response_get.json())
 
     assertions.assert_status_code(response, 200)
-    assertions.assert_status_success(response)
+    assertions.assert_api_status(response,"success")
     assertions.assert_response_data(response, "false")

@@ -23,6 +23,6 @@ def test_TC015_19_rolldie(api_client, per_test_logger,die_id):
 
     # Assertions
     assertions.assert_status_code(response, 200)
-    assertions.assert_rolldie_data(response)
+    assertions.assert_roll_die_response(response)
 
 

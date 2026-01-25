@@ -21,5 +21,5 @@ def test_TC045_setdievalue_invalidpassword(api_client, per_test_logger):
     logger.info("Response is %s", response.json())
 
     assertions.assert_status_code(response,401)
-    assertions.assert_status_fail(response)
+    assertions.assert_api_status(response,"failed")
     assertions.assert_response_data(response,"Incorrect username or password provided")

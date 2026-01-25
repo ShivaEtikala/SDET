@@ -6,6 +6,7 @@ import core.assertions as assertions
 
 @pytest.mark.sanity
 @pytest.mark.regression
+@pytest.mark.single_thread
 def test_TC011_isyahtzeetrue(api_client, per_test_logger, get_auth_headers):
     """
     API_TC011 is to check if isyahtzee returns true if all the dice values are same
@@ -28,6 +29,6 @@ def test_TC011_isyahtzeetrue(api_client, per_test_logger, get_auth_headers):
     logger.info("Dice values are %s",response_get.json())
 
     assertions.assert_status_code(response, 200)
-    assertions.assert_status_success(response)
+    assertions.assert_api_status(response,"success")
     assertions.assert_response_data(response, "true")
 

@@ -12,7 +12,7 @@ def test_TC008_put_playerName_invalid_data(api_client, per_test_logger,get_auth_
     logger = per_test_logger
     logger.info("Sending PUT request with invalid data")
 
-    response, payload = put_player_name_invalidpayload(api_client,get_auth_headers)
+    response, payload = put_player_name_invalid_payload(api_client,get_auth_headers)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)
@@ -21,4 +21,4 @@ def test_TC008_put_playerName_invalid_data(api_client, per_test_logger,get_auth_
     # Assertions
     assertions.assert_status_code(response, 400)
     assertions.assert_response_data(response, "Invalid request body format")
-    assertions.assert_status_fail(response)
+    assertions.assert_api_status(response,"failed")

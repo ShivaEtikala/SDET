@@ -1,119 +1,137 @@
-def assert_status_code(response, expected):
+# assertions.py
+# Centralized API response assertions for test automation
+
+VALID_DIE_VALUES_INT = range(1, 7)
+VALID_DIE_VALUES_WORD = {"one", "two", "three", "four", "five", "six"}
+VALID_DIE_VALUES_DOT = {".", "..", "...", "....", ".....", "......"}
+
+
+def assert_status_code(response, expected_status):
     """
     Asert that the HTTP response status code matches the expected value.
-
-    This assertion validates that the API returned the correct HTTP status, ensuring the request was processed as
-    intended.
-
-    :param response: requests.Response object returned by the API call
-    :param expected: Expected HTTP status code (e.g. 200,400, 404_
-    :return:
     """
-    assert response.status_code == expected, f"Expected {expected}, got {response.status_code}"
+    actual = response.status_code
+    assert actual == expected_status, f"Expected HTTP status{expected_status}, but received {actual}"
 
 
-def assert_not_empty(response):
+def assert_response_not_empty(response):
     """
     Assert that the HTTP response body is not empty.
-
-    This assertion ensures that the API returned some content in the response, which is especially important for GET
-    endpoints returning data.
     """
     assert response.text, "Response body is empty"
 
 
-def assert_status_success(response):
+def assert_api_status(response, expected_status):
     """
     Assert that the HTTP response status filed indicates success.
-
-    This assertion validates success by checking the 'status' field in the JSON response body, not just the HTTP
-    status code.
     """
-    assert response.json().get("status") == "success", "Expected response status to be 'success'"
+    body = response.json()
+    actual = body.get("status")
+    assert actual == expected_status, f"Expected API status '{expected_status}', but received '{actual}'"
 
 
 def assert_response_time(response, max_ms):
     """
     Assert that the HTTP response time is within the acceptable threshold.
-
-    This assertion validates basic performance expectations by ensuring the total time taken to receive the response
-    code does not exceed the maximum allowed duration.
     """
-    assert response.elapsed.total_seconds() * 1000 <= max_ms
+    elapsed_ms = response.elapsed.total_seconds() * 1000
+    assert elapsed_ms <= max_ms, f"Response time {elapsed_ms}ms exceeded limit of {max_ms}ms"
 
 
-def assert_response_data(response, expecteddata):
-    assert expecteddata in response.text
-
-
-def assert_status_fail(response):
+def assert_response_data(response, expected_data):
     """
-    Assert that the HTTP response status filed indicates failed.
-    This assertion validates success by checking the 'status' field in the JSON response body, not just the HTTP
-    status code.
+    Assert that response body contains expected text.
     """
-    assert response.json().get("status") == "failed", "Expected response status to be 'failed'"
+    assert expected_data in response.text, f"Expected '{expected_data}' to be present in response"
 
 
-def assert_rolldice_data(response):
-    response_json = response.json()
-    assert response.json().get("status") == "success", "Expected response status to be 'success'"
-    assert "data" in response_json
-    assert isinstance(response_json["data"], list)
+# ---------- Dice-specific Assertions ----------
+def assert_rolldice_data_response(response):
+    """
+    Validate response for roll dice endpoint (list of dice).
+    """
+    body = response.json()
+    assert_api_status(response, "success")
+    assert "data" in body, "Missing 'data' in response body"
+    assert isinstance(body["data"], list)
 
-    for item in response_json["data"]:
-        assert "id" in item
-        assert "value" in item
+    for item in body["data"]:
+        assert "id" in item, "Missing 'id' in response body"
+        assert "value" in item, "Missing 'value' in response body"
 
-        assert 1 <= item["id"] <= 5, f"Invalid id : {item['id']}"
-        assert 1 <= item["value"] <= 6, f"Invalid value : {item['value']}"
-
-
-def assert_rolldie_data(response):
-    response_json = response.json()
-    assert response.json().get("status") == "success", "Expected response status to be 'success'"
-    assert "data" in response_json
-    assert "id" in response_json["data"]
-    assert "value" in response_json["data"]
-    # assert 1 <= response_json["data"]["id"] <= 5, f"Invalid id : {item['id']}"
-    assert 1 <= response_json["data"]["value"] <= 6, f"Invalid value : {response_json["data"]["value"]}"
+        assert item["id"] in range(1, 6), f"Invalid die id : {item['id']}"
+        assert item["value"] in VALID_DIE_VALUES_INT, f"Invalid die value : {item['value']}"
 
 
-def assert_rolldie_invaliddata(response):
-    response_json = response.json()
-    assert response.json().get("status") == "failed", "Expected response status to be 'failed'"
-    assert "data" in response_json
-    assert response_json["data"] == "Die ID must be an integer between 1 and 5"
+def assert_roll_die_response(response):
+    """
+    Validate response for single die roll.
+    """
+    body = response.json()
+    assert_api_status(response, "success")
+
+    assert "data" in body, "Missing 'data' in response body"
+    data = body.get("data")
+    assert "id" in data, "Missing 'id' in response body"
+    assert "value" in data, "Missing 'value' in response body"
+    assert data["value"] in VALID_DIE_VALUES_INT, f"Invalid die value : {data['value']}"
 
 
-def assert_die_intvaluetype(response):
-    response_json = response.json()
-    assert isinstance(response_json["data"]["value"], int)
+def assert_invalid_die_id_response(response):
+    """
+    Validate response for invalid die ID.
+    """
+    body = response.json()
+    assert_api_status(response, "failed")
+    assert "data" in body, "Missing daa in response body"
+    assert body["data"] == "Die ID must be an integer between 1 and 5", (
+        "Unexpected Error message for invalid die ID"
+    )
 
 
-def assert_die_floatvaluetype(response):
-    response_json = response.json()
-    value = response_json["data"]["value"]
-    assert isinstance(value, str)
-    assert float(value) >= 1
+# ---------- Value Type Assertions ----------
+def assert_die_value_is_int(response):
+    """
+    Validate die value type as int
+    """
+    body = response.json()
+    value = body["data"]["value"]
+    assert isinstance(value, int), f"Expected die value type int, got {type(value)}"
 
 
-def assert_die_wordvaluetype(response):
-    response_json = response.json()
-    valid_values = ["one", "two", "three", "four", "five", "six"]
-    value = response_json["data"]["value"]
-    assert isinstance(value, str)
-    assert value in valid_values
+def assert_die_value_is_float_string(response):
+    """
+    Validate die value type as float
+    """
+    body = response.json()
+    value = body["data"]["value"]
+    assert isinstance(value, str), "Die value should be string"
+    assert float(value) >= 1, f"Invalid float value: {value}"
 
 
-def assert_die_dotvaluetype(response):
-    response_json = response.json()
-    valid_values = [".", "..", "...", "....", ".....", "......"]
-    value = response_json["data"]["value"]
-    assert isinstance(value, str)
-    assert value in valid_values
+def assert_die_value_is_word(response):
+    """
+    Validate die value type as word
+    """
+    body = response.json()
+    value = body["data"]["value"]
+    assert isinstance(value, str), "Die value must be string"
+    assert value in VALID_DIE_VALUES_WORD, f"unexpected die value: {value}"
 
 
-def assert_die_invalidheader(response):
-    response_json = response.json()
-    assert response_json["data"] == "Invalid value in 'Accept' header"
+def assert_die_value_is_dot(response):
+    """
+    Validate die value type as dot
+    """
+    body = response.json()
+    value = body["data"]["value"]
+    assert isinstance(value, str), "Die value should be string"
+    assert value in VALID_DIE_VALUES_DOT, f"unexpected die value: {value}"
+
+
+def assert_invalid_accept_header(response):
+    """
+    Validate Accept Header
+    """
+    body = response.json()
+    assert body.get("data") == "Invalid value in 'Accept' header", "Unexpected error message for invalid Accept header"

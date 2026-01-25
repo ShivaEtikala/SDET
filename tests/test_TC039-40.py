@@ -31,5 +31,5 @@ def test_TC039_40_setdinvaliddievalue(api_client, per_test_logger, get_auth_head
     logger.info("Response is %s", response.json())
 
     assertions.assert_status_code(response,400)
-    assertions.assert_status_fail(response)
+    assertions.assert_api_status(response,"failed")
     assertions.assert_response_data(response,"Die ID must be between 1 and 5")

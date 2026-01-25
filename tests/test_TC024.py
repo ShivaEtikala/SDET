@@ -24,4 +24,4 @@ def test_TC024_dice(api_client, per_test_logger):
 
     # Assertions
     assertions.assert_status_code(response, 200)
-    assertions.assert_rolldice_data(response)
+    assertions.assert_rolldice_data_response(response)

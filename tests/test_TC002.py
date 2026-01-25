@@ -17,8 +17,9 @@ def test_TC002_put_playerName(api_client, per_test_logger, player_name, get_auth
 
     logger = per_test_logger
     logger.info("Starting test: PUT /playerName")
+    auth_type = AuthType.AUTHENTICATION
 
-    response, payload = put_player_name(api_client, get_auth_headers, player_name)
+    response, payload = put_player_name(api_client, player_name, auth_type, get_auth_headers)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)
@@ -40,7 +41,7 @@ def test_TC002_put_playerName(api_client, per_test_logger, player_name, get_auth
 
     # Assertions
     assertions.assert_status_code(response, 200)
-    assertions.assert_not_empty(response)
-    assertions.assert_status_success(response)
+    assertions.assert_response_not_empty(response)
+    assertions.assert_api_status(response,"success")
     assertions.assert_response_time(response, 1000)
     assertions.assert_response_data(response, payload["name"])

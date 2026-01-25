@@ -29,6 +29,6 @@ def test_TC027_29_getdieid1(api_client, per_test_logger, die_id, Accept_Header):
     logger.info("Value of die id is %s", response.json()["data"]["value"])
     # Assertions
     assertions.assert_status_code(response,200)
-    assertions.assert_status_success(response)
-    assertions.assert_die_intvaluetype(response)
+    assertions.assert_api_status(response,"success")
+    assertions.assert_die_value_is_int(response)
 

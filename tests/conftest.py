@@ -64,7 +64,7 @@ def per_test_logger(request):
     logfile = PROJECT_ROOT / "reports" / "logs" / f"{safe_test_name}.log"
 
     logger = logging.getLogger(test_name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
     if not logger.handlers:
         handler = logging.FileHandler(logfile, mode='w')

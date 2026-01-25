@@ -31,5 +31,5 @@ def test_TC041_42_setdiediffvalue(api_client, per_test_logger, get_auth_headers,
     logger.info("Response is %s", response.json())
 
     assertions.assert_status_code(response,400)
-    assertions.assert_status_fail(response)
+    assertions.assert_api_status(response,"failed")
     assertions.assert_response_data(response,"Die value must be between 1 and 6")

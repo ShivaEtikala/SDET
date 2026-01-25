@@ -1,7 +1,31 @@
-# Test framework for writing and executing automated tests
+# -----------------------------
+# Core Test Framework
+# Framework for writing and executing automated tests, supports fixtures, markers, assertions
+# -----------------------------
 pytest
-# HTTP client library for making REST API calls
+
+# -----------------------------
+# HTTP Client for API Testing
+# For making REST API calls: GET, POST, PUT, DELETE, with headers, auth, payloads
+# -----------------------------
 requests
-#YAML parser for loading environment configuration files
+
+# -----------------------------
+# Configuration Management
+ # Parse YAML config files for environment variables, credentials, URLs, etc.
+# -----------------------------
 pyyaml
-pytest_html
+
+# -----------------------------
+# Test Reporting
+# Generates HTML reports for test results, supports embedded logs
+# -----------------------------
+pytest-html
+
+# -----------------------------
+# Parallel Test Execution
+# Run tests in parallel across multiple workers, supports loadscope/loadfile strategies
+# -----------------------------
+pytest-xdist
+
+
