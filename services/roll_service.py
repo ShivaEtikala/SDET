@@ -46,8 +46,9 @@ def delete_isyahtzee(api_client):
     return api_client.delete(f"/isYahtzee")
 
 
-def put_dievalue(api_client, die_id, value):
-    return api_client.put(f"/die", {"Id": die_id, "value": value}, auth=HTTPBasicAuth("admin", "snakeeyes"))
+def put_dievalue(api_client, die_id, value, get_auth_headers):
+    auth = get_auth_headers
+    return api_client.put(f"/die", {"Id": die_id, "value": value}, auth=auth)
 
 
 def put_dievalue_withoutautinput(api_client, die_id, value, auth=None):
@@ -67,4 +68,4 @@ def put_dievalue_wronguser_password(api_client, die_id, value, auth=None):
 
 
 def delete_dievalue(api_client, die_id, value, auth=None):
-    return api_client.delete(f"/die", auth=HTTPBasicAuth("admin", "snakeeyes"))
+    return api_client.delete(f"/die", auth)

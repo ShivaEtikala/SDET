@@ -8,7 +8,7 @@ import core.assertions as assertions
 
 @pytest.mark.sanity
 @pytest.mark.regression
-def test_TC010_getyahtzee(api_client, per_test_logger):
+def test_TC010_getyahtzee(api_client, per_test_logger, get_auth_headers):
     """
     API_TC011 is to check if isyahtzee returns false if all the dice values are different
     :param api_client:
@@ -23,7 +23,7 @@ def test_TC010_getyahtzee(api_client, per_test_logger):
         while value in exclude:
             value = random.randint(1, 6)
         logger.info("Starting test : PUT /die with {id:%s,value:%s}", die_id, value)
-        response = put_dievalue(api_client, die_id, value)
+        response = put_dievalue(api_client, die_id, value, get_auth_headers)
         logger.info("Status code is %s", response.status_code)
         assertions.assert_status_code(response, 204)
         exclude.append(value)

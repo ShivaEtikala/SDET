@@ -5,14 +5,14 @@ import pytest
 
 @pytest.mark.negative
 @pytest.mark.regression
-def test_TC003_put_playerName_noauth(api_client, per_test_logger):
+def test_TC003_put_playerName_noauth(api_client, per_test_logger,player_name):
     """
     Negative test: Update Player name with no Authorization
     """
     logger = per_test_logger
     logger.info("Sending PUT request with no Authorization")
 
-    response, payload = put_player_name_noauth(api_client)
+    response, payload = put_player_name_noauth(api_client,player_name)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)

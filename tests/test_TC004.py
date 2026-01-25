@@ -5,14 +5,14 @@ import pytest
 
 @pytest.mark.negative
 @pytest.mark.regression
-def test_TC004_put_playerName_wrongusername(api_client, per_test_logger):
+def test_TC004_put_playerName_wrongusername(api_client, per_test_logger,player_name):
     """
     Negative test: Update Player name with wrong username
     """
     logger = per_test_logger
     logger.info("Sending PUT request with wrong username")
 
-    response, payload = put_player_name_wrongusername(api_client)
+    response, payload = put_player_name_wrongusername(api_client,player_name)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)

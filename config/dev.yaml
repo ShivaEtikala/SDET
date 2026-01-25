@@ -1,1 +1,5 @@
 base_url: http://localhost:8090
+auth_type: basic
+username: admin
+password: snakeeyes
+playername: sas_sdet_test

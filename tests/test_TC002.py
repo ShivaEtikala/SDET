@@ -7,7 +7,7 @@ from core.client import ApiClient
 @pytest.mark.smoke
 @pytest.mark.sanity
 @pytest.mark.regression
-def test_TC002_put_playerName(api_client, per_test_logger):
+def test_TC002_put_playerName(api_client, per_test_logger, player_name, get_auth_headers):
     """
     Test Case: API_TC_002  Verify update playername
     Verifies:
@@ -18,7 +18,7 @@ def test_TC002_put_playerName(api_client, per_test_logger):
     logger = per_test_logger
     logger.info("Starting test: PUT /playerName")
 
-    response, payload = put_player_name(api_client)
+    response, payload = put_player_name(api_client, get_auth_headers, player_name)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)

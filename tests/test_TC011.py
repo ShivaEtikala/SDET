@@ -6,7 +6,7 @@ import core.assertions as assertions
 
 @pytest.mark.sanity
 @pytest.mark.regression
-def test_TC011_isyahtzeetrue(api_client, per_test_logger):
+def test_TC011_isyahtzeetrue(api_client, per_test_logger, get_auth_headers):
     """
     API_TC011 is to check if isyahtzee returns true if all the dice values are same
     :param api_client:
@@ -16,7 +16,7 @@ def test_TC011_isyahtzeetrue(api_client, per_test_logger):
     logger = per_test_logger
     for die_id in range(1,6):
         logger.info("Starting test : PUT /die with {id:%s,value:1}", die_id)
-        response = put_dievalue(api_client, die_id,1)
+        response = put_dievalue(api_client, die_id,1,get_auth_headers)
         logger.info("Status code is %s", response.status_code)
         assertions.assert_status_code(response,204)
 

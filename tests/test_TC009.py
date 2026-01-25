@@ -5,7 +5,7 @@ from core.client import ApiClient
 
 
 @pytest.mark.regression
-def test_TC009_put_playerName_responsetime(api_client, per_test_logger):
+def test_TC009_put_playerName_responsetime(api_client, per_test_logger,get_auth_headers,player_name):
     """
     Test Case: API_TC_009  Verify update playername response time
     Verifies:
@@ -17,7 +17,7 @@ def test_TC009_put_playerName_responsetime(api_client, per_test_logger):
     logger = per_test_logger
     logger.info("Starting test: PUT /playerName")
 
-    response, payload = put_player_name(api_client)
+    response, payload = put_player_name(api_client,get_auth_headers,player_name)
 
     # Log response details for traceability
     logger.info("Status Code: %s", response.status_code)
