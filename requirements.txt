@@ -28,4 +28,7 @@ pytest-html
 # -----------------------------
 pytest-xdist
 
-
+# -----------------------------
+# Load environment variables from .env files
+# -----------------------------
+python-dotenv
