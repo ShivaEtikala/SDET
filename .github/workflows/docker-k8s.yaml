@@ -2,11 +2,7 @@ name: Docker + Kubernetes Pytest
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ master ]
 
 env:
   IMAGE_NAME: pytest-sas-sdet
