@@ -49,10 +49,8 @@ jobs:
         with:
           version: v1.30.0
 
-      - name: Configure Kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
+      - name: Create Kubernetes cluster
+        uses: helm/kind-action@v1.10.0
 
       - name: Create Namespace
         run: |
