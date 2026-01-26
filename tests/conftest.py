@@ -34,6 +34,8 @@ def config():
     with open(config_path, 'r') as f:
         cfg = yaml.safe_load(f)
 
+    cfg["base_url"] = os.getenv("BASE_URL", cfg.get("base_url"))
+
     # Inject secrets from environment
     cfg["username"] = os.getenv("APP_USERNAME")
     cfg["password"] = os.getenv("APP_PASSWORD")

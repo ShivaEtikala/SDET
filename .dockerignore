@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+
+# Env files
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Test caches & reports
+.pytest_cache/
+reports/
+
+# Git
+.git/
+.gitignore
+
+# CI
+.github/
+Jenkinsfile
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.log
+

@@ -15,4 +15,6 @@ reports/
 # OS
 .DS_Store
 
+# Jenkins file
 Jenkinsfile
+

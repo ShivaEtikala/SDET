@@ -1,7 +1,5 @@
-name: Run SDET Pytest API Automation
+name: Run SDET Pytest API Automation with repo
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 jobs:
