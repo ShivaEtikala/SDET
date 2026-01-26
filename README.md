@@ -12,38 +12,47 @@ The framework supports:
 - HTML report generation per test run  
 - CI/CD integration with **GitHub Actions** or **Jenkins**  
 
----
+
+```
 
 ## Project Structure
 SAS_SDET/
-|----core/ #Core utilities
-| |---client.py #API client wrapper with logging
-| |---assertiona.py #Common assertion methods
-|----Services/ #Service functions for API endpoints
-| |---get_playerName_service.py
-|----tests/ #All testcases
-| |---conftest.py #Pytest fixtures
-| |---test_TC001_get_playerName.py
-|----utils/#Utility modules
-| |---logger.py #Custom logger configuration
-|----config/ #Environment configuration
-| |---dev.yaml
-|----reports/ # Test reports generated here
-|----requirements.txt #Python dependencies
-|----pytest.ini #Pytest configuration
+├── core/                      # Core framework components
+│   ├── client.py              # API client wrapper (HTTP calls, logging, retries)
+│   └── assertions.py          # Common assertion/helper methods
+│
+├── services/                  # Service-layer functions for API endpoints
+│   └── get_playerName_service.py
+│
+├── tests/                     # All pytest test cases
+│   ├── conftest.py             # Pytest fixtures (config, API client, auth)
+│   └── test_TC001_get_playerName.py
+│
+├── utils/                     # Shared utility modules
+│   └── logger.py              # Custom logger configuration
+│
+├── config/                    # Environment-specific configuration
+│   └── dev.yaml               # Base config (overridden by env variables)
+│
+├── reports/                   # Generated test reports (ignored in Git)
+│
+├── requirements.txt           # Python dependencies
+├── pytest.ini                 # Pytest configuration
+├── Dockerfile                 # Docker image definition for test execution
+├── .dockerignore              # Files excluded from Docker build context
+├── .gitignore                 # Files excluded from Git
+└── README.md                  # Project documentation
 
-
----
+```
 
 ## Setup
 
-1. **Clone the repository:**
-
 ```bash
+1. **Clone the repository
 git clone https://github.com/ShivaEtikala/SDET.git
 cd SAS_SDET
 
-2. **Clone the repository:**
+2. **Create virtual environment**
 python -m venv .venv
 source .venv/bin/activate   # Linux/macOS
 .venv\Scripts\activate      # Windows
@@ -53,14 +62,14 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 4. ***Configuration***
-- API based URL is defined in conftest.py
+- API based URL is defined in dev.yaml file
 
 5. ***Running Tests***
 From Terminal
 pytest --html=reports/pytest-report.html --self-contained-html -v
 
 6.***Logging***
--Customr logger implemented in utils/logger.py
+-Custom logger implemented in utils/logger.py
 
 7. ***HTML Reports***
 - Configured to generate reports in reports/pytest-report.html
@@ -81,7 +90,7 @@ GitHub Actions:
 ## Test Guidelines
 - All tests should start with test_ for pytest to discover them
 - Each test logs request and response details
-- Aseertions are used for status code, Status successs, response time, Response body not empty
+- Assertions are used for status code, Status successs, response time, Response body not empty
 
 ## Requirements
 -Python 3.12
@@ -92,7 +101,7 @@ pyyaml
 pytest-html
 
 ## Notes:
-- Ensure Docker is running locally if localhost as API base URL
+- Ensure Docker is running locally if localhost as API in a base URL
 - For CI/CD, API should run ina  container accessible by the runner
 - Use pytest.ini to configure pytest logging and report options
 
