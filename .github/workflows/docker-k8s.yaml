@@ -119,7 +119,7 @@ jobs:
         run: |
           mkdir -p ./reports
           POD_NAME=$(kubectl get pods -n $K8S_NAMESPACE -l job-name=$PYTEST_JOB_NAME -o jsonpath='{.items[0].metadata.name}')
-          kubectl cp $K8S_NAMESPACE/$POD_NAME:/reports ./reports -c pytest
+          kubectl exec -n $K8S_NAMESPACE $POD_NAME -- tar cf - -C /reports . | tar xf - -C ./reports
 
       # -----------------------------
       # Upload HTML report
