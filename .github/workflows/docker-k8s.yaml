@@ -1,0 +1,96 @@
+
+name: Docker + Kubernetes Pytest (CI)
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: pytest-sas-sdet
+  IMAGE_TAG: ci
+  K8S_NAMESPACE: test
+  API_DEPLOYMENT_NAME: api-deployment
+  PYTEST_JOB_NAME: pytest-job
+
+jobs:
+  k8s-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------
+      # Checkout code
+      # -----------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # Create kind cluster
+      # -----------------------------
+      - name: Create Kubernetes cluster (kind)
+        uses: helm/kind-action@v1
+
+      # -----------------------------
+      # Build pytest Docker image
+      # -----------------------------
+      - name: Build pytest Docker image
+        run: |
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+      # -----------------------------
+      # Load image into kind
+      # -----------------------------
+      - name: Load image into kind
+        run: |
+          kind load docker-image $IMAGE_NAME:$IMAGE_TAG
+
+      # -----------------------------
+      # Create namespace
+      # -----------------------------
+      - name: Create namespace
+        run: |
+          kubectl create namespace $K8S_NAMESPACE || true
+
+      # -----------------------------
+      # Create app secrets
+      # -----------------------------
+      - name: Create secrets
+        run: |
+          kubectl create secret generic app-secrets \
+            --from-literal=username=${{ secrets.APP_USERNAME }} \
+            --from-literal=password=${{ secrets.APP_PASSWORD }} \
+            -n $K8S_NAMESPACE \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      # -----------------------------
+      # Deploy API
+      # -----------------------------
+      - name: Deploy API
+        run: |
+          kubectl apply -n $K8S_NAMESPACE -f k8s/api-deployment.yaml
+          kubectl apply -n $K8S_NAMESPACE -f k8s/api-service.yaml
+
+      - name: Wait for API to be ready
+        run: |
+          kubectl rollout status deployment/$API_DEPLOYMENT_NAME \
+            -n $K8S_NAMESPACE --timeout=120s
+
+      # -----------------------------
+      # Run pytest job
+      # -----------------------------
+      - name: Run Pytest Job
+        run: |
+          kubectl delete job $PYTEST_JOB_NAME -n $K8S_NAMESPACE --ignore-not-found
+          kubectl apply -n $K8S_NAMESPACE -f k8s/pytest-job.yaml
+
+      - name: Wait for Pytest completion
+        run: |
+          kubectl wait --for=condition=complete \
+            job/$PYTEST_JOB_NAME -n $K8S_NAMESPACE --timeout=180s
+
+      # -----------------------------
+      # Fetch logs
+      # -----------------------------
+      - name: Pytest logs
+        run: |
+          kubectl logs job/$PYTEST_JOB_NAME -n $K8S_NAMESPACE

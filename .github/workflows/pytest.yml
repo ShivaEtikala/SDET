@@ -1,11 +1,11 @@
 name: Run SDET Pytest API Automation with repo
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays at midnight
+  #push:
+    #branches: [ master ]
+  #pull_request:
+    #branches: [ master ]
+  #schedule:
+    #- cron: '0 0 * * 0'  # Weekly on Sundays at midnight
   workflow_dispatch:
 
 jobs:

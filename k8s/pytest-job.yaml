@@ -8,7 +8,8 @@ spec:
     spec:
       containers:
         - name: pytest
-          image: your-docker-username/pytest-sas-sdet:latest
+          image: pytest-sas-sdet:ci
+          imagePullPolicy: IfNotPresent
           env:
             - name: BASE_URL
               value: "http://api-service:8090"

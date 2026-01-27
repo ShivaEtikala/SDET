@@ -18,3 +18,8 @@ reports/
 # Jenkins file
 Jenkinsfile
 
+# Local Scripts
+local-test.ps1
+
+# Docker runtime leftovers
+*.pid

@@ -35,3 +35,9 @@ dist/
 build/
 *.log
 
+# Docker files not needed in image
+Dockerfile
+
+# local scripts
+local-test.ps1
+
