@@ -111,3 +111,37 @@ jobs:
           kind get clusters
           kubectl cluster-info
 
+      # -----------------------------
+      # Copy reports and logs from pod
+      # -----------------------------
+      - name: Copy reports and logs
+        run: |
+          POD_NAME=$(kubectl get pods -n $K8S_NAMESPACE -l job-name=$PYTEST_JOB_NAME -o jsonpath='{.items[0].metadata.name}')
+          kubectl cp $K8S_NAMESPACE/$POD_NAME:/reports ./reports
+
+      # -----------------------------
+      # Upload HTML report
+      # -----------------------------
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: reports/pytest-report.html
+
+      # -----------------------------
+      # Upload per-test logs
+      # -----------------------------
+      - name: Upload per-test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: reports/logs/*.log
+
+      # -----------------------------
+      # Upload all test logs
+      # -----------------------------
+      - name: Upload all test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-tests.log
+          path: reports/all-tests.log
