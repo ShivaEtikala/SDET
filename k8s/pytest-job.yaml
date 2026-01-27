@@ -28,14 +28,6 @@ spec:
             - name: reports
               mountPath: /reports
 
-          # Sidecar container to upload reports after tests complete
-        - name: report-uploader
-          image: busybox
-          command: ["sh", "-c", "sleep 600"]
-          volumeMounts:
-            - name: reports
-              mountPath: /reports
-
       volumes:
         - name: reports
           emptyDir: {}
