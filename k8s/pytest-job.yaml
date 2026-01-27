@@ -9,7 +9,7 @@ spec:
       containers:
         - name: pytest
           image: pytest-sas-sdet:ci
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
           env:
             - name: BASE_URL
               value: "http://api-service:8090"

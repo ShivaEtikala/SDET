@@ -28,7 +28,17 @@ jobs:
       # Create kind cluster
       # -----------------------------
       - name: Create Kubernetes cluster (kind)
-        uses: helm/kind-action@v1
+        uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: kind
+
+      # -----------------------------
+      # Verify Cluster
+      # -----------------------------
+      - name: Verify kind cluster
+        run: |
+          kind get clusters
+          kubectl get nodes
 
       # -----------------------------
       # Build pytest Docker image
@@ -42,7 +52,7 @@ jobs:
       # -----------------------------
       - name: Load image into kind
         run: |
-          kind load docker-image $IMAGE_NAME:$IMAGE_TAG
+          kind load docker-image $IMAGE_NAME:$IMAGE_TAG --name kind
 
       # -----------------------------
       # Create namespace
@@ -94,3 +104,10 @@ jobs:
       - name: Pytest logs
         run: |
           kubectl logs job/$PYTEST_JOB_NAME -n $K8S_NAMESPACE
+
+      - name: Debug kind
+        run: |
+          docker ps
+          kind get clusters
+          kubectl cluster-info
+
