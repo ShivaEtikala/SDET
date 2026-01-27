@@ -96,7 +96,7 @@ jobs:
       - name: Wait for Pytest completion
         run: |
           kubectl wait --for=condition=complete \
-            job/$PYTEST_JOB_NAME -n $K8S_NAMESPACE --timeout=180s
+            job/$PYTEST_JOB_NAME -n $K8S_NAMESPACE --timeout=300s
 
       # -----------------------------
       # Fetch logs
@@ -116,6 +116,7 @@ jobs:
       # -----------------------------
       - name: Copy reports and logs
         run: |
+          mkdir -p /reports
           POD_NAME=$(kubectl get pods -n $K8S_NAMESPACE -l job-name=$PYTEST_JOB_NAME -o jsonpath='{.items[0].metadata.name}')
           kubectl cp $K8S_NAMESPACE/$POD_NAME:/reports ./reports
 

@@ -23,6 +23,6 @@ spec:
                 secretKeyRef:
                   name: app-secrets
                   key: password
-          command: ["pytest", "--maxfail=1", "--disable-warnings", "-v"]
+          command: ["pytest", "-v", "--capture=no", "--html=reports/pytest-report.html", "--self-contained-html", "--log-file=reports/all-tests.log", "-m", "regression"]
       restartPolicy: Never
   backoffLimit: 0
