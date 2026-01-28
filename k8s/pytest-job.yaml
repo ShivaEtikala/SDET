@@ -24,13 +24,5 @@ spec:
                   name: app-secrets
                   key: password
           command: ["pytest", "-v", "--capture=no", "--html=reports/pytest-report.html", "--self-contained-html", "--log-file=reports/all-tests.log", "-m", "regression"]
-          volumeMounts:
-            - name: reports
-              mountPath: /reports
-
-      volumes:
-        - name: reports
-          emptyDir: {}
       restartPolicy: Never
-
   backoffLimit: 0

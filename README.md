@@ -10,7 +10,7 @@ The framework supports:
 - Custom logging for requests and responses  
 - Assertions for status code, response body, and response time  
 - HTML report generation per test run  
-- CI/CD integration with **GitHub Actions** or **Jenkins**  
+- CI/CD integration with **GitHub Actions**  
 
 
 ```
@@ -21,18 +21,24 @@ SAS_SDET/
 │   ├── client.py              # API client wrapper (HTTP calls, logging, retries)
 │   └── assertions.py          # Common assertion/helper methods
 │
+├── config/                    # Environment-specific configuration
+│   └── dev.yaml               # Base config (overridden by env variables)
+│
+├── k8s/                  # API deployment, service and pytest job YAMLs
+│   └── api-deployment.yaml
+│   └── api-service.yaml
+│   └── pytest-job.yaml
+│
 ├── services/                  # Service-layer functions for API endpoints
 │   └── get_playerName_service.py
+│   └── roll_service.py      
 │
 ├── tests/                     # All pytest test cases
 │   ├── conftest.py             # Pytest fixtures (config, API client, auth)
-│   └── test_TC001_get_playerName.py
+│   └── test_TC**.py
 │
 ├── utils/                     # Shared utility modules
 │   └── logger.py              # Custom logger configuration
-│
-├── config/                    # Environment-specific configuration
-│   └── dev.yaml               # Base config (overridden by env variables)
 │
 ├── reports/                   # Generated test reports (ignored in Git)
 │
@@ -63,6 +69,7 @@ pip install -r requirements.txt
 
 4. ***Configuration***
 - API based URL is defined in dev.yaml file
+- Create .env file with credentials, Environment variables can override config values 
 
 5. ***Running Tests***
 From Terminal
@@ -77,7 +84,7 @@ pytest --html=reports/pytest-report.html --self-contained-html -v
 ## CI/CD Integration
 
 GitHub Actions:
-- Workflow file: .github/workflows/api-test.yml
+- Workflow file: .github/workflows/pytest.yml
 - Steps:
       1. Checkout code
       2. Setup Python 3.12
@@ -86,6 +93,16 @@ GitHub Actions:
       5. Wait for APi readiness
       6. Run test with HTML report
       7. Upload report as artifact
+      
+- Workflow file: .github/workflows/docker-k8s.yml
+- Steps:
+      1. Push to master
+      2. Create Kubernetes cluster(kind)
+      3. Build & load Docker image
+      4. Deploy API in Kubernetes
+      5. Run pytest in Kubernetes
+      6. Collect logs
+      7. Clean everything
 
 ## Test Guidelines
 - All tests should start with test_ for pytest to discover them
@@ -94,14 +111,15 @@ GitHub Actions:
 
 ## Requirements
 -Python 3.12
--Packages in requirements.txt
-pytest
-requests
-pyyaml
-pytest-html
+-pytest
+-requests
+-pyyaml
+-pytest-html
+-pytest-xdist
+-python-dotenv
 
 ## Notes:
 - Ensure Docker is running locally if localhost as API in a base URL
-- For CI/CD, API should run ina  container accessible by the runner
+- For CI/CD, API should run in a container accessible by the runner
 - Use pytest.ini to configure pytest logging and report options
 
