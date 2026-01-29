@@ -4,11 +4,6 @@ import pytest
 
 import core.assertions as assertions
 from services.playerName_service import get_player_name
-from utils.logger import get_logger
-
-# Module-Level Logger for this test file
-#logger = get_logger(__name__)
-
 
 @pytest.mark.smoke
 @pytest.mark.sanity
