@@ -39,6 +39,8 @@ def put_player_name(api_client, player_name, auth_type: AuthType, get_auth_heade
         auth = HTTPBasicAuth("admin", "snakeeyesz")
     elif auth_type == AuthType.WRONGBOTH:
         auth = HTTPBasicAuth("admin1", "snakeeyesz")
+    else:
+        auth = None
 
     return api_client.put(f"/playerName", payload, headers=headers, auth=auth), payload
 
