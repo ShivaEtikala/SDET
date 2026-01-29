@@ -110,13 +110,8 @@ GitHub Actions:
 - Assertions are used for status code, Status successs, response time, Response body not empty
 
 ## Requirements
--Python 3.12
--pytest
--requests
--pyyaml
--pytest-html
--pytest-xdist
--python-dotenv
+-Python 3.12(preinstalled)
+-Docker (for local API and CI/CD)
 
 ## Notes:
 - Ensure Docker is running locally if localhost as API in a base URL
