@@ -15,9 +15,6 @@ reports/
 # OS
 .DS_Store
 
-# Jenkins file
-Jenkinsfile
-
 # Local Scripts
 local-test.ps1
 
